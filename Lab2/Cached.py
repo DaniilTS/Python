@@ -2,18 +2,20 @@ def _cached(function):
     def anotherFunc(arg1, arg2, arg3):
         Sum = arg1 + arg2 + arg3
         Mul = arg1 * arg2 * arg3
+        key = tuple([arg1, arg2, arg3])
+
         if len(memory) == 0:
-            memory.update({tuple([arg1, arg2, arg3]): [Sum, Mul]})
+            memory.update({key: [Sum, Mul]})
             print("Sum:", Sum)
             function(arg1, arg2, arg3)
 
-        elif tuple([arg1, arg2, arg3]) not in memory:
-            memory.update({tuple([arg1, arg2, arg3]): [Sum, Mul]})
+        elif key not in memory:
+            memory.update({key: [Sum, Mul]})
             print("Sum:", Sum)
             function(arg1, arg2, arg3)
 
         else:
-            print("Sum and Mul:", memory[tuple([arg1, arg2, arg3])])
+            print("Sum and Mul:", memory[key])
     return anotherFunc
 
 
