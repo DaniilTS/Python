@@ -6,8 +6,9 @@ from Sort import Sorting
 class Exort(object):
     __temp_arr = []
     __file_names = []
-    __num_of_lines = 10000
+    __num_of_lines = 1000
     __counter = 1
+    __sort = Sorting()
 
     def __read_file(self, file):
         with open(file, 'r') as n_file:
@@ -16,10 +17,9 @@ class Exort(object):
                 self.__counter += 1
                 if self.__counter > self.__num_of_lines:
                     with tempfile.NamedTemporaryFile(delete=False, mode='w') as temp:
-                        list = Sorting.merge_sort(self.__temp_arr)
-                        temp.writelines(f'{i}\n' for i in list)
+                        asd = self.__sort.merge_sort(self.__temp_arr)
+                        temp.writelines(f'{i}\n' for i in asd)
                         self.__file_names.append(temp)
-
                     self.__temp_arr.clear()
                     self.__counter = 1
 
@@ -30,8 +30,7 @@ class Exort(object):
 
     def __sort_files(self):
         while len(self.__file_names) > 1:
-            with open(self.__file_names[0].name, 'r') as first_file, open(self.__file_names[1].name,
-                                                                          'r') as second_file:
+            with open(self.__file_names[0].name, 'r') as first_file, open(self.__file_names[1].name, 'r') as second_file:
                 with tempfile.NamedTemporaryFile(delete=False, mode='w') as temp:
                     self.__sort_lines(temp, [first_file, second_file])
                     self.__file_names.append(temp)
@@ -39,15 +38,15 @@ class Exort(object):
             self.__del_files(second_file)
 
     def __sort_lines(self, temp, files):
-        first_line = files[0].readlines()
-        second_line = files[1].readlines()
+        first_line = files[0].readline()
+        second_line = files[1].readline()
         while first_line and second_line:
             if int(first_line) > int(second_line):
                 temp.writelines(second_line)
-                second_line = files.readline()
+                second_line = files[1].readline()
             else:
                 temp.writelines(first_line)
-                first_line = files[0].readlines()
+                first_line = files[0].readline()
         if first_line:
             self.__cont_fill(temp, files[0],first_line)
         else:
