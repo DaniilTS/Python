@@ -1,3 +1,6 @@
+
+from Singleton import Singleton
+
 class cache:
 
     def __init__(self, func):
@@ -13,7 +16,7 @@ class cache:
         return res
 
 
-class json_parse(object):
+class json_parse(metaclass=Singleton):
     symbols = [' ', '{', '}', '":"']
 
     @classmethod
@@ -22,9 +25,9 @@ class json_parse(object):
             return str(value).lower()
         elif isinstance(value, str):
             return f"\"{value}\""
-        elif isinstance(value, int or float) or isinstance(value, float):
+        elif isinstance(value, int) or isinstance(value,float):
             return f"{str(value)}"
-        elif isinstance(value, list) or isinstance(value, tuple):
+        elif isinstance(value, list) or isinstance(value,tuple):
             return cls.__collection_to_json(value)
         elif isinstance(value, dict):
             return cls.__dict_to_json(value)
@@ -38,9 +41,9 @@ class json_parse(object):
             return f"\"{item}\""
         elif isinstance(item, bool):
             return str(item).lower()
-        elif isinstance(item, int or float):
+        elif isinstance(item, int) or isinstance(item, float):
             return str(item)
-        elif isinstance(item, list or tuple):
+        elif isinstance(item, list) or isinstance(item,tuple):
             return cls.__collection_to_json(item)
         elif isinstance(item, type(None)):
             return 'null'

@@ -1,9 +1,10 @@
 import tempfile
 import os
 from Sort import Sorting
+from Singleton import Singleton
 
 
-class Exort(object):
+class Exort(metaclass=Singleton):
     __temp_arr = []
     __file_names = []
     __num_of_lines = 1000
